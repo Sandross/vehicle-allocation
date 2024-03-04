@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { DriverEntity } from '../../entities/driver.entity';
+import { DriverEntity } from './driver.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ILike, Repository } from 'typeorm';
 import { CreateDriverDto } from './dto/create-driver-dto';

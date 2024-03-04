@@ -5,8 +5,8 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { DriverEntity } from './driver.entity';
-import { VehiclesEntity } from './vehicle.entity';
+import { DriverEntity } from '../drivers/driver.entity';
+import { VehiclesEntity } from '../vehicles/vehicle.entity';
 
 @Entity('vehicle_allocation')
 export class VehiclesAllocationEntity {

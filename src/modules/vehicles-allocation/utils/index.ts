@@ -1,6 +1,6 @@
-import { DriverEntity } from 'src/app/entities/driver.entity';
-import { VehiclesAllocationEntity } from 'src/app/entities/vehicle-allocation.entity';
-import { VehiclesEntity } from 'src/app/entities/vehicle.entity';
+import { DriverEntity } from 'src/modules/drivers/driver.entity';
+import { VehiclesAllocationEntity } from 'src/modules/vehicles-allocation/vehicle-allocation.entity';
+import { VehiclesEntity } from 'src/modules/vehicles/vehicle.entity';
 import { Repository } from 'typeorm';
 
 async function checkVehicleExists(
@@ -34,10 +34,26 @@ async function checkIsVehicleAllocated(
   const vehicle = await vehiclesAllocationRepository.findOne({
     where: { id: vehicleId, endDate: null },
   });
-  console.log(vehicle);
   if (vehicle) {
     throw new Error('Vehicle already allocated');
   }
 }
 
-export { checkVehicleExists, checkDriverExists, checkIsVehicleAllocated };
+async function driverHasAlreadyActiveContract(
+  driverId: number,
+  vehiclesAllocationRepository: Repository<VehiclesAllocationEntity>,
+): Promise<void> {
+  const driver = await vehiclesAllocationRepository.findOne({
+    where: { id: driverId, endDate: null },
+  });
+  if (driver) {
+    throw new Error('Driver already has an active contract');
+  }
+}
+
+export {
+  checkVehicleExists,
+  checkDriverExists,
+  checkIsVehicleAllocated,
+  driverHasAlreadyActiveContract,
+};

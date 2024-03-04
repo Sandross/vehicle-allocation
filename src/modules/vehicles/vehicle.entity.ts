@@ -1,21 +1,27 @@
 import {
-  Entity,
-  PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
-  UpdateDateColumn,
   DeleteDateColumn,
+  Entity,
   OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
-import { VehiclesAllocationEntity } from './vehicle-allocation.entity';
+import { VehiclesAllocationEntity } from '../vehicles-allocation/vehicle-allocation.entity';
 
-@Entity('drivers')
-export class DriverEntity {
+@Entity('vehicles')
+export class VehiclesEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column('text', { nullable: false })
-  name: string;
+  license_plate: string;
+
+  @Column('text', { nullable: false })
+  color: string;
+
+  @Column('text', { nullable: false })
+  brand: string;
 
   @CreateDateColumn()
   createdAt: Date;
@@ -28,7 +34,7 @@ export class DriverEntity {
 
   @OneToMany(
     () => VehiclesAllocationEntity,
-    (usageRecord) => usageRecord.driver,
+    (usageRecord) => usageRecord.vehicle,
   )
   usageRecords: VehiclesAllocationEntity[];
 }

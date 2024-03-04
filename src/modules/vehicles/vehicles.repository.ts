@@ -1,5 +1,5 @@
 import { InjectRepository } from '@nestjs/typeorm';
-import { VehiclesEntity } from 'src/app/entities/vehicle.entity';
+import { VehiclesEntity } from 'src/modules/vehicles/vehicle.entity';
 import { Repository } from 'typeorm';
 import { Logger } from '@nestjs/common';
 import { VehiclesFiltersDto } from './dto/vehicles-filters-dto';

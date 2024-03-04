@@ -1,5 +1,5 @@
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { DriverEntity } from '../../entities/driver.entity';
+import { DriverEntity } from './driver.entity';
 import { DriverService } from './drivers.service';
 import { Module } from '@nestjs/common';
 import { DriverController } from './drivers.controller';
