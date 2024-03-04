@@ -55,12 +55,13 @@ export class DriverService {
     try {
       if (name) {
         return await this.driverRepository.find({
-          where: {
-            name: ILike(`%${name.toLowerCase()}%`),
-          },
+          where: { name: ILike(`%${name.toLowerCase()}%`) },
+          relations: ['usageRecords'],
         });
       }
-      return await this.driverRepository.find();
+      return await this.driverRepository.find({
+        relations: ['usageRecords'],
+      });
     } catch (error) {
       this.logger.error(error.message);
     }
