@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { CreateNewVehicleDto } from './dto/create-new-vehicle-dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { VehiclesEntity } from 'src/entities/vehicle.entity';
+import { VehiclesEntity } from 'src/app/entities/vehicle.entity';
 import { Repository } from 'typeorm';
 import { UpdateVehicleDto } from './dto/update-vehicle-dto';
 

@@ -1,6 +1,6 @@
-import { DriverEntity } from 'src/entities/driver.entity';
-import { VehiclesAllocationEntity } from 'src/entities/vehicle-allocation.entity';
-import { VehiclesEntity } from 'src/entities/vehicle.entity';
+import { DriverEntity } from 'src/app/entities/driver.entity';
+import { VehiclesAllocationEntity } from 'src/app/entities/vehicle-allocation.entity';
+import { VehiclesEntity } from 'src/app/entities/vehicle.entity';
 import { Repository } from 'typeorm';
 
 async function checkVehicleExists(

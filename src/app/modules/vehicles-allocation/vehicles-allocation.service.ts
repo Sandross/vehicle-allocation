@@ -1,10 +1,10 @@
 import { AllocateVehicleDto } from './dto/allocate-vehicle-dto';
 import { Injectable, Logger } from '@nestjs/common';
-import { VehiclesAllocationEntity } from 'src/entities/vehicle-allocation.entity';
+import { VehiclesAllocationEntity } from 'src/app/entities/vehicle-allocation.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { VehiclesEntity } from 'src/entities/vehicle.entity';
-import { DriverEntity } from 'src/entities/driver.entity';
+import { VehiclesEntity } from 'src/app/entities/vehicle.entity';
+import { DriverEntity } from 'src/app/entities/driver.entity';
 import {
   checkDriverExists,
   checkIsVehicleAllocated,
