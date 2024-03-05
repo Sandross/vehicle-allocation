@@ -1,12 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { VehiclesAllocationController } from '../../src/modules/vehicles-allocation/vehicles-allocation.controller';
 import { VehiclesAllocationService } from '../../src/modules/vehicles-allocation/vehicles-allocation.service';
-
-const mockedVehiclesAllocationService = {
-  allocateVehicle: jest.fn(),
-  getAllAllocatedVehicles: jest.fn(),
-  finishVehiclesAllocateContract: jest.fn(),
-};
+import { mockedVehiclesAllocationService } from '../../test/test-utils';
 
 describe('VehiclesAllocation Controller', () => {
   let controller: VehiclesAllocationController;

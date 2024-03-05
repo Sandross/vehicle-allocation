@@ -19,6 +19,8 @@ export const mockedVehicleAllocationService = {
   getVehiclesAllocations: jest.fn(),
   findOne: jest.fn(),
   save: jest.fn(),
+  create: jest.fn(),
+  find: jest.fn(),
 };
 
 export const mockedVehiclesService = {
@@ -37,4 +39,10 @@ export const mockedVehiclesService = {
 export const mockedVehiclesRepository = {
   getVehiclesByFilters: jest.fn(),
   findOne: jest.fn(),
+};
+
+export const mockedVehiclesAllocationService = {
+  allocateVehicle: jest.fn(),
+  getAllAllocatedVehicles: jest.fn(),
+  finishVehiclesAllocateContract: jest.fn(),
 };
