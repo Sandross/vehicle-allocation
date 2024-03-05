@@ -17,7 +17,7 @@ export class DriverController {
   constructor(private readonly driverService: DriverService) {}
 
   @Get()
-  findAllDrivers(@Query('name') name: string) {
+  findAllDrivers(@Query('name') name?: string) {
     return this.driverService.findAllDrivers(name);
   }
 

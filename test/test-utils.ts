@@ -6,6 +6,9 @@ export const mockedDriversService = {
   deleteDriver: jest.fn(),
   findOne: jest.fn(),
   save: jest.fn(),
+  update: jest.fn(),
+  softDelete: jest.fn(),
+  find: jest.fn(),
 };
 
 export const mockedVehicleAllocationService = {

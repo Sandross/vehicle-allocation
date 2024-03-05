@@ -31,7 +31,7 @@ export class DriverService {
       if (driverAlreadyExists) {
         this.logger.error(`Driver widh name ${driver.name} already exists`);
         throw new BadRequestException(
-          `Driver widh name ${driver.name} already exists`,
+          `Driver with name ${driver.name} already exists`,
         );
       }
 
@@ -52,7 +52,7 @@ export class DriverService {
       });
 
       if (!searchedDriver) {
-        throw new NotFoundException(`Driver widh id ${id} not found`);
+        throw new NotFoundException(`Driver with id ${id} not found`);
       }
 
       await this.driverRepository.update(id, driver);
@@ -96,7 +96,7 @@ export class DriverService {
     }
   }
 
-  async findAllDrivers(name: string): Promise<DriverEntity[]> {
+  async findAllDrivers(name?: string): Promise<DriverEntity[]> {
     try {
       if (name) {
         const request = await this.driverRepository.find({
@@ -105,7 +105,7 @@ export class DriverService {
         });
 
         if (!request) {
-          throw new NotFoundException(`No with name ${name} driver found`);
+          throw new NotFoundException(`No driver with name ${name} found`);
         }
       }
 
