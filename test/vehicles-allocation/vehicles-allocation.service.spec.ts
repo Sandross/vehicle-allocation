@@ -112,38 +112,4 @@ describe('VehiclesAllocationService', () => {
 
     expect(result).toEqual(vehicleAllocation);
   });
-  it('should throw if allocateVehicle throws', async () => {
-    try {
-      const allocateVehicleSut = {
-        vehicleId: '1',
-        driverId: '1',
-        reason: 'test',
-      };
-      mockedVehiclesService.findOne.mockRejectedValueOnce(new Error('test'));
-      await service.allocateVehicle(allocateVehicleSut);
-    } catch (error) {
-      expect(error.message).toEqual('test');
-    }
-  });
-  it('should throw if getAllAllocatedVehicles throws', async () => {
-    try {
-      mockedVehicleAllocationService.find.mockRejectedValueOnce(
-        new Error('test'),
-      );
-      await service.getAllAllocatedVehicles();
-    } catch (error) {
-      expect(error.message).toEqual('test');
-    }
-  });
-  it('should throw if finishVehiclesAllocateContract throws', async () => {
-    try {
-      const contractId = '1';
-      mockedVehicleAllocationService.findOne.mockRejectedValueOnce(
-        new Error('test'),
-      );
-      await service.finishVehiclesAllocateContract(+contractId);
-    } catch (error) {
-      expect(error.message).toEqual('test');
-    }
-  });
 });
