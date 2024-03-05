@@ -1,7 +1,7 @@
 import { BadRequestException } from '@nestjs/common';
-import { DriverEntity } from 'src/modules/drivers/driver.entity';
-import { VehiclesAllocationEntity } from 'src/modules/vehicles-allocation/vehicle-allocation.entity';
-import { VehiclesEntity } from 'src/modules/vehicles/vehicle.entity';
+import { DriverEntity } from '../../../modules/drivers/driver.entity';
+import { VehiclesAllocationEntity } from '../../../modules/vehicles-allocation/vehicle-allocation.entity';
+import { VehiclesEntity } from '../../../modules/vehicles/vehicle.entity';
 import { Repository } from 'typeorm';
 
 async function checkVehicleExists(

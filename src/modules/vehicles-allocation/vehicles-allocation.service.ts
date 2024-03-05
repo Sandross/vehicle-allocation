@@ -6,11 +6,11 @@ import {
   Injectable,
   Logger,
 } from '@nestjs/common';
-import { VehiclesAllocationEntity } from 'src/modules/vehicles-allocation/vehicle-allocation.entity';
+import { VehiclesAllocationEntity } from '../../modules/vehicles-allocation/vehicle-allocation.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { VehiclesEntity } from 'src/modules/vehicles/vehicle.entity';
-import { DriverEntity } from 'src/modules/drivers/driver.entity';
+import { VehiclesEntity } from '../../modules/vehicles/vehicle.entity';
+import { DriverEntity } from '../../modules/drivers/driver.entity';
 import {
   checkDriverExists,
   checkIsVehicleAllocated,
