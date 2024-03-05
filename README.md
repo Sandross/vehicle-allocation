@@ -1,73 +1,128 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# Bem-vindo ao Projeto Vehicles Allocation!
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Uma aplicação back-end que gerencia veículos, motoristas e suas relações. Dockerizado melhorar a experiência e utilizando tecnologias como Nest, TypeORM, SQLite, Jest, Docker e Swagger.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+---
 
-## Description
+## 🐳 Dockerizado
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+Este projeto pode ser executado tanto localmente quanto no Docker. Certifique-se de ter o Docker instalado.
 
-## Installation
+<details>
+  <summary>
+    <strong>⚙️ Docker</strong>
+  </summary><br>
 
-```bash
-$ npm install
-```
+  - **Construir e Executar o Contêiner:**
+  
+    Se você optar por rodar via Docker, utilize o seguinte comando:
+    
+    ```bash
+    docker-compose up -d
+    ```
 
-## Running the app
+  - **Encerrar o Contêiner:**
+  
+    Quando não precisar mais do ambiente Docker, utilize o seguinte comando para encerrar:
+    
+    ```bash
+    docker-compose down
+    ```
 
-```bash
-# development
-$ npm run start
+</details>
 
-# watch mode
-$ npm run start:dev
+---
 
-# production mode
-$ npm run start:prod
-```
+## 🧪 Testes
 
-## Test
+O projeto conta com 100% de cobertura nos services e controller.
 
-```bash
-# unit tests
-$ npm run test
+<details>
+  <summary>
+    <strong>🔍 Testes</strong>
+  </summary><br>
 
-# e2e tests
-$ npm run test:e2e
+  - **Cobertura de Testes:**
+  
+    Para rodar os testes, use o seguinte comando:
+    
+    ```bash
+    npm run test
+    ```
 
-# test coverage
-$ npm run test:cov
-```
+</details>
 
-## Support
+---
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+## 📄 Documentação
 
-## Stay in touch
+A documentação da API pode ser acessada localmente em `http://localhost:3000/api` através do Swagger. 
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+**Nota:** Lembre-se que, quando executando localmente, a documentação pode não estar sempre disponível se a aplicação não estiver em execução.
 
-## License
+<details>
+  <summary>
+    <strong>📖 Documentação</strong>
+  </summary><br>
 
-Nest is [MIT licensed](LICENSE).
+  - **Swagger:**
+  
+    Acesse a documentação da API localmente [aqui](http://localhost:3000/api). Verifique se a aplicação está em execução.
+
+</details>
+
+---
+
+## Configuração do Ambiente
+
+Certifique-se de seguir as orientações abaixo para configurar e executar o projeto.
+
+<details>
+  <summary>
+    <strong>⚙️ Configuração</strong>
+  </summary><br>
+
+  - **Clonar o Repositório:**
+  
+    ```bash
+    git clone git@github.com:Sandross/vehicle-allocation.git
+    cd vehicle-allocation
+    ```
+
+  - **Instalar Dependências:**
+  
+    ```bash
+    npm install
+    ```
+
+  - **Iniciar o Projeto:**
+  
+    ```bash
+    npm run start
+    ```
+
+</details>
+
+---
+
+## Tecnologias Utilizadas
+
+- **Nest.js**
+  
+- **TypeORM**
+  
+- **SQLite**
+  
+- **Jest**
+  
+- **Docker**
+  
+- **Swagger**
+
+---
+
+## Feedbacks
+
+Feedbacks são sempre bem-vindos para melhorar continuamente o projeto. Entre em contato através do e-mail: [sandrosalasfilho3@gmail.com](mailto:sandrosalasfilho3@gmail.com).
+
+---  
