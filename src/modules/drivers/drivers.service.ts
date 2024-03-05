@@ -10,6 +10,7 @@ import { DriverEntity } from './driver.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ILike, Repository } from 'typeorm';
 import { CreateDriverDto } from './dto/create-driver-dto';
+import { VehiclesAllocationEntity } from '../vehicles-allocation/vehicle-allocation.entity';
 
 @Injectable()
 export class DriverService {
@@ -17,6 +18,8 @@ export class DriverService {
   constructor(
     @InjectRepository(DriverEntity)
     private readonly driverRepository: Repository<DriverEntity>,
+    @InjectRepository(VehiclesAllocationEntity)
+    private readonly vehiclesAllocationEntity: Repository<VehiclesAllocationEntity>,
   ) {}
 
   async createNewDriver(
@@ -26,10 +29,12 @@ export class DriverService {
       const driverAlreadyExists = await this.driverRepository.findOne({
         where: { name: driver.name },
       });
+
       if (driverAlreadyExists) {
         this.logger.error('Driver already exists');
         throw new BadRequestException('Driver already exists');
       }
+
       return this.driverRepository.save(driver);
     } catch (error) {
       this.logger.error(error.message);
@@ -39,10 +44,17 @@ export class DriverService {
       );
     }
   }
+
   async updateDriver(id: number, driver: CreateDriverDto): Promise<any> {
     try {
-      const searchedDriver = this.driverRepository.findOne({ where: { id } });
-      if (!searchedDriver) throw new NotFoundException('Driver not found');
+      const searchedDriver = await this.driverRepository.findOne({
+        where: { id },
+      });
+
+      if (!searchedDriver) {
+        throw new NotFoundException('Driver not found');
+      }
+
       await this.driverRepository.update(id, driver);
       return await this.driverRepository.findOne({ where: { id } });
     } catch (error) {
@@ -56,10 +68,25 @@ export class DriverService {
 
   async deleteDriver(id: number): Promise<any> {
     try {
-      const searchedDriver = this.driverRepository.findOne({ where: { id } });
-      if (!searchedDriver) throw new NotFoundException('Driver not found');
+      const searchedDriver = await this.driverRepository.findOne({
+        where: { id },
+      });
+
+      if (!searchedDriver) {
+        throw new NotFoundException('Driver not found');
+      }
+      const driverUnderContract = await this.vehiclesAllocationEntity.findOne({
+        where: { driver: { id }, endDate: null },
+        relations: ['vehicle', 'driver'],
+      });
+      if (driverUnderContract) {
+        throw new BadRequestException(
+          `Driver with id ${id} is currently under contract, cannot delete it`,
+        );
+      }
       await this.driverRepository.softDelete(id);
-      return await this.driverRepository.findOne({ where: { id } });
+      this.logger.log(`Driver with id ${id} deleted successfully`);
+      return `Driver with id ${id} deleted successfully`;
     } catch (error) {
       this.logger.error(error.message);
       throw new HttpException(
@@ -76,16 +103,20 @@ export class DriverService {
           where: { name: ILike(`%${name.toLowerCase()}%`) },
           relations: ['usageRecords'],
         });
+
         if (!request) {
           throw new NotFoundException('No driver found');
         }
       }
+
       const request = await this.driverRepository.find({
         relations: ['usageRecords'],
       });
+
       if (!request) {
         throw new NotFoundException('No driver found');
       }
+
       return request;
     } catch (error) {
       this.logger.error(error.message);
@@ -99,9 +130,11 @@ export class DriverService {
   async findDriverById(id: number): Promise<DriverEntity> {
     try {
       const request = await this.driverRepository.findOne({ where: { id } });
+
       if (!request) {
         throw new NotFoundException('Driver not found');
       }
+
       return request;
     } catch (error) {
       this.logger.error(error.message);

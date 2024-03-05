@@ -1,5 +1,14 @@
 import { DriverService } from './drivers.service';
-import { Body, Controller, Get, Param, Post, Put, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+  Query,
+} from '@nestjs/common';
 import { CreateDriverDto } from './dto/create-driver-dto';
 import { UpdateDriverDto } from './dto/update-driver-dto';
 
@@ -30,7 +39,7 @@ export class DriverController {
     return this.driverService.updateDriver(+driverId, updateDriverDto);
   }
 
-  @Put('/:driverId/delete')
+  @Delete('/:driverId')
   deleteDriver(@Param('driverId') driverId: string) {
     return this.driverService.deleteDriver(+driverId);
   }

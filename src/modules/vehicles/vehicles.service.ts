@@ -10,6 +10,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { VehiclesEntity } from 'src/modules/vehicles/vehicle.entity';
 import { Repository } from 'typeorm';
 import { UpdateVehicleDto } from './dto/update-vehicle-dto';
+import { VehiclesAllocationEntity } from '../vehicles-allocation/vehicle-allocation.entity';
 
 @Injectable()
 export class VehiclesService {
@@ -17,6 +18,8 @@ export class VehiclesService {
   constructor(
     @InjectRepository(VehiclesEntity)
     private readonly vehiclesRepository: Repository<VehiclesEntity>,
+    @InjectRepository(VehiclesAllocationEntity)
+    private readonly vehiclesAllocationRepository: Repository<VehiclesAllocationEntity>,
   ) {}
 
   async createNewVehicle(
@@ -27,7 +30,9 @@ export class VehiclesService {
         where: { brand: vehicle.brand },
       });
       if (vehicleAlreadyExists) {
-        throw new BadRequestException('Vehicle already exists');
+        throw new BadRequestException(
+          `Vehicle with brand ${vehicle.brand} already exists`,
+        );
       }
       return this.vehiclesRepository.save(vehicle);
     } catch (error) {
@@ -64,8 +69,18 @@ export class VehiclesService {
       const vehicleToDelete = await this.vehiclesRepository.findOne({
         where: { id },
       });
-      if (!vehicleToDelete) throw new BadRequestException('Vehicle not found');
-      await this.vehiclesRepository.delete(id);
+      if (!vehicleToDelete)
+        throw new BadRequestException(`Vehicle with id ${id} not found`);
+      const vehicleUnderContract =
+        await this.vehiclesAllocationRepository.findOne({
+          where: { vehicle: { id }, endDate: null },
+          relations: ['vehicle', 'driver'],
+        });
+      if (vehicleUnderContract)
+        throw new BadRequestException(
+          `Vehicle with id ${id} is currently under contract`,
+        );
+      await this.vehiclesRepository.softDelete(id);
       return `Vehicle with id ${id} deleted successfully`;
     } catch (error) {
       this.logger.error(error.message);
