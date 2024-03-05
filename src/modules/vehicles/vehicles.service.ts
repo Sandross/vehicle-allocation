@@ -52,7 +52,8 @@ export class VehiclesService {
       const vehicleToUpdate = await this.vehiclesRepository.findOne({
         where: { id },
       });
-      if (!vehicleToUpdate) throw new BadRequestException('Vehicle not found');
+      if (!vehicleToUpdate)
+        throw new BadRequestException(`Vehicle with id ${id} not found`);
       await this.vehiclesRepository.update(id, vehicle);
       return await this.vehiclesRepository.findOne({ where: { id } });
     } catch (error) {
@@ -96,7 +97,8 @@ export class VehiclesService {
       const vehicle = await this.vehiclesRepository.findOne({
         where: { id },
       });
-      if (!vehicle) throw new BadRequestException('Vehicle not found');
+      if (!vehicle)
+        throw new BadRequestException(`Vehicle with id ${id} not found`);
       return vehicle;
     } catch (error) {
       this.logger.error(error.message);

@@ -22,17 +22,22 @@ export class DriverService {
     private readonly vehiclesAllocationEntity: Repository<VehiclesAllocationEntity>,
   ) {}
 
-  async createNewDriver(
-    driver: CreateDriverDto,
-  ): Promise<CreateDriverDto | { error: string }> {
+  async createNewDriver(driver: CreateDriverDto): Promise<CreateDriverDto> {
     try {
       const driverAlreadyExists = await this.driverRepository.findOne({
         where: { name: driver.name },
       });
 
-      console.log(driverAlreadyExists);
+      console.log(driverAlreadyExists, driver.name);
+      console.log(
+        await this.driverRepository.findOne({ where: { name: undefined } }),
+      );
+
       if (driverAlreadyExists) {
-        this.logger.error('Driver already exists');
+        this.logger.error(`Driver widh name ${driver.name} already exists`);
+        throw new BadRequestException(
+          `Driver widh name ${driver.name} already exists`,
+        );
       }
 
       return this.driverRepository.save(driver);
@@ -52,7 +57,7 @@ export class DriverService {
       });
 
       if (!searchedDriver) {
-        throw new NotFoundException('Driver not found');
+        throw new NotFoundException(`Driver widh id ${id} not found`);
       }
 
       await this.driverRepository.update(id, driver);
@@ -73,7 +78,7 @@ export class DriverService {
       });
 
       if (!searchedDriver) {
-        throw new NotFoundException('Driver not found');
+        throw new NotFoundException(`Driver with id ${id} not found`);
       }
       const driverUnderContract = await this.vehiclesAllocationEntity.findOne({
         where: { driver: { id }, endDate: null },
@@ -105,7 +110,7 @@ export class DriverService {
         });
 
         if (!request) {
-          throw new NotFoundException('No driver found');
+          throw new NotFoundException(`No with name ${name} driver found`);
         }
       }
 
@@ -114,7 +119,7 @@ export class DriverService {
       });
 
       if (!request) {
-        throw new NotFoundException('No driver found');
+        throw new NotFoundException('We have no drivers in the database');
       }
 
       return request;
@@ -132,7 +137,7 @@ export class DriverService {
       const request = await this.driverRepository.findOne({ where: { id } });
 
       if (!request) {
-        throw new NotFoundException('Driver not found');
+        throw new NotFoundException(`Driver with id ${id} not found`);
       }
 
       return request;

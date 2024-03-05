@@ -2,15 +2,15 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { VehiclesController } from '../../../src/modules/vehicles/vehicles.controller';
 import { VehiclesService } from '../../../src/modules/vehicles/vehicles.service';
 
-// Mock do serviço para isolar os testes
 const mockVehiclesService = {
   createNewVehicle: jest.fn(),
   updateVehicle: jest.fn(),
   deleteVehicle: jest.fn(),
   getVehicleById: jest.fn(),
+  getVehicles: jest.fn(),
 };
 
-describe('VehiclesController', () => {
+describe('Vehicles Controller', () => {
   let controller: VehiclesController;
 
   beforeEach(async () => {

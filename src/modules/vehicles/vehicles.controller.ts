@@ -40,7 +40,7 @@ export class VehiclesController {
   }
 
   @Get('/:vehicleId')
-  getVehicle(@Param('vehicleId') vehicleId: string) {
+  getVehicleById(@Param('vehicleId') vehicleId: string) {
     return this.vehiclesService.getVehicleById(+vehicleId);
   }
 
