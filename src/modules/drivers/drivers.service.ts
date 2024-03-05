@@ -28,11 +28,6 @@ export class DriverService {
         where: { name: driver.name },
       });
 
-      console.log(driverAlreadyExists, driver.name);
-      console.log(
-        await this.driverRepository.findOne({ where: { name: undefined } }),
-      );
-
       if (driverAlreadyExists) {
         this.logger.error(`Driver widh name ${driver.name} already exists`);
         throw new BadRequestException(

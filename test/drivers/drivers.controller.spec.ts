@@ -1,14 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { DriverController } from '../../src/modules/drivers/drivers.controller';
 import { DriverService } from '../../src/modules/drivers/drivers.service';
-
-const mockedDriversService = {
-  findAllDrivers: jest.fn(),
-  findDriverById: jest.fn(),
-  createNewDriver: jest.fn(),
-  updateDriver: jest.fn(),
-  deleteDriver: jest.fn(),
-};
+import { mockedDriversService } from '../test-utils';
 
 describe('Drivers Controller', () => {
   let controller: DriverController;
