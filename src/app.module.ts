@@ -12,7 +12,7 @@ import { VehiclesAllocationModule } from './modules/vehicles-allocation/vehicles
       type: 'sqlite',
       database: 'db',
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
-      synchronize: true,
+      synchronize: false,
     }),
     DriverModule,
     VehiclesModule,

@@ -69,8 +69,8 @@
       "^.+\\.(t|j)s$": "ts-jest"
     },
     "collectCoverageFrom": [
-        "src/**/*.ts*"
-      ],    
-      "testEnvironment": "node"
+      "src/**/*.ts*"
+    ],
+    "testEnvironment": "node"
   }
 }
