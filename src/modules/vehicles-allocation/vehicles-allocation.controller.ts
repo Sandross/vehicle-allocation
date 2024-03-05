@@ -1,7 +1,9 @@
 import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { VehiclesAllocationService } from './vehicles-allocation.service';
 import { AllocateVehicleDto } from './dto/allocate-vehicle-dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('vehicles-allocation')
 @Controller('vehicles-allocation')
 export class VehiclesAllocationController {
   constructor(

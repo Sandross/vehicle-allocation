@@ -13,7 +13,9 @@ import { CreateNewVehicleDto } from './dto/create-new-vehicle-dto';
 import { UpdateVehicleDto } from './dto/update-vehicle-dto';
 import { VehiclesFiltersDto } from './dto/vehicles-filters-dto';
 import VehiclesRepository from './vehicles.repository';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('vehicles')
 @Controller('vehicles')
 export class VehiclesController {
   constructor(

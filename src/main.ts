@@ -1,6 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
+import { apiDocumentation } from './documentation';
 
 async function bootstrap() {
   const port = 3000;
@@ -12,6 +13,7 @@ async function bootstrap() {
       forbidNonWhitelisted: true,
     }),
   );
+  apiDocumentation(app);
   await app.listen(port);
   console.info(`listening on port: ${port}`);
 }
