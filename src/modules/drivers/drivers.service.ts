@@ -30,9 +30,9 @@ export class DriverService {
         where: { name: driver.name },
       });
 
+      console.log(driverAlreadyExists);
       if (driverAlreadyExists) {
         this.logger.error('Driver already exists');
-        throw new BadRequestException('Driver already exists');
       }
 
       return this.driverRepository.save(driver);

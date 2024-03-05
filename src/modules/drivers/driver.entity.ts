@@ -17,10 +17,10 @@ export class DriverEntity {
   @Column('text', { nullable: false })
   name: string;
 
-  @CreateDateColumn()
+  @CreateDateColumn({ type: 'datetime', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ default: null })
   updatedAt: Date;
 
   @DeleteDateColumn({ default: null })
