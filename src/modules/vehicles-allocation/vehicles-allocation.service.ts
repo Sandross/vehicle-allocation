@@ -2,6 +2,7 @@ import { AllocateVehicleDto } from './dto/allocate-vehicle-dto';
 import {
   BadRequestException,
   HttpException,
+  HttpStatus,
   Injectable,
   Logger,
 } from '@nestjs/common';
@@ -53,6 +54,10 @@ export class VehiclesAllocationService {
       return this.vehiclesAllocationRepository.save(vehicleAllocation);
     } catch (error) {
       this.logger.error(error.message);
+      throw new HttpException(
+        error.message,
+        error.status || HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     }
   }
   async getAllAllocatedVehicles(): Promise<VehiclesAllocationEntity[]> {
@@ -61,12 +66,15 @@ export class VehiclesAllocationService {
         relations: ['driver', 'vehicle'],
       });
       if (!request) {
-        throw new HttpException('No vehicle allocation found', 404);
+        throw new BadRequestException('No vehicle allocation found');
       }
       return request;
     } catch (error) {
       this.logger.error(error.message);
-      throw new BadRequestException(error.message);
+      throw new HttpException(
+        error.message,
+        error.status || HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     }
   }
   async finishVehiclesAllocateContract(
@@ -77,13 +85,16 @@ export class VehiclesAllocationService {
         { where: { id: contractId } },
       );
       if (!vehicleAllocation) {
-        throw new HttpException('Vehicle allocation contract not found', 404);
+        throw new BadRequestException('Vehicle allocation contract not found');
       }
       vehicleAllocation.endDate = new Date();
       return this.vehiclesAllocationRepository.save(vehicleAllocation);
     } catch (error) {
       this.logger.error(error.message);
-      throw new BadRequestException(error.message);
+      throw new HttpException(
+        error.message,
+        error.status || HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     }
   }
 }

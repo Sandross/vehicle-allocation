@@ -1,4 +1,10 @@
-import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
+import {
+  BadRequestException,
+  HttpException,
+  HttpStatus,
+  Injectable,
+  Logger,
+} from '@nestjs/common';
 import { CreateNewVehicleDto } from './dto/create-new-vehicle-dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { VehiclesEntity } from 'src/modules/vehicles/vehicle.entity';
@@ -21,7 +27,7 @@ export class VehiclesService {
         where: { brand: vehicle.brand },
       });
       if (vehicleAlreadyExists) {
-        throw new HttpException('Vehicle already exists', 400);
+        throw new BadRequestException('Vehicle already exists');
       }
       return this.vehiclesRepository.save(vehicle);
     } catch (error) {
@@ -41,7 +47,7 @@ export class VehiclesService {
       const vehicleToUpdate = await this.vehiclesRepository.findOne({
         where: { id },
       });
-      if (!vehicleToUpdate) throw new HttpException('Vehicle not found', 404);
+      if (!vehicleToUpdate) throw new BadRequestException('Vehicle not found');
       await this.vehiclesRepository.update(id, vehicle);
       return await this.vehiclesRepository.findOne({ where: { id } });
     } catch (error) {
@@ -58,7 +64,7 @@ export class VehiclesService {
       const vehicleToDelete = await this.vehiclesRepository.findOne({
         where: { id },
       });
-      if (!vehicleToDelete) throw new HttpException('Vehicle not found', 404);
+      if (!vehicleToDelete) throw new BadRequestException('Vehicle not found');
       await this.vehiclesRepository.delete(id);
       return `Vehicle with id ${id} deleted successfully`;
     } catch (error) {
@@ -75,7 +81,7 @@ export class VehiclesService {
       const vehicle = await this.vehiclesRepository.findOne({
         where: { id },
       });
-      if (!vehicle) throw new HttpException('Vehicle not found', 404);
+      if (!vehicle) throw new BadRequestException('Vehicle not found');
       return vehicle;
     } catch (error) {
       this.logger.error(error.message);

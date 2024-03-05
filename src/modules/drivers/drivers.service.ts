@@ -1,8 +1,10 @@
 import {
   BadRequestException,
   HttpException,
+  HttpStatus,
   Injectable,
   Logger,
+  NotFoundException,
 } from '@nestjs/common';
 import { DriverEntity } from './driver.entity';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -26,35 +28,44 @@ export class DriverService {
       });
       if (driverAlreadyExists) {
         this.logger.error('Driver already exists');
-        throw new HttpException('Driver already exists', 400);
+        throw new BadRequestException('Driver already exists');
       }
       return this.driverRepository.save(driver);
     } catch (error) {
       this.logger.error(error.message);
-      throw new BadRequestException(error.message);
+      throw new HttpException(
+        error.message,
+        error.status || HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     }
   }
   async updateDriver(id: number, driver: CreateDriverDto): Promise<any> {
     try {
       const searchedDriver = this.driverRepository.findOne({ where: { id } });
-      if (!searchedDriver) throw new HttpException('Driver not found', 404);
+      if (!searchedDriver) throw new NotFoundException('Driver not found');
       await this.driverRepository.update(id, driver);
       return await this.driverRepository.findOne({ where: { id } });
     } catch (error) {
       this.logger.error(error.message);
-      throw new BadRequestException(error.message);
+      throw new HttpException(
+        error.message,
+        error.status || HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     }
   }
 
   async deleteDriver(id: number): Promise<any> {
     try {
       const searchedDriver = this.driverRepository.findOne({ where: { id } });
-      if (!searchedDriver) throw new HttpException('Driver not found', 404);
+      if (!searchedDriver) throw new NotFoundException('Driver not found');
       await this.driverRepository.softDelete(id);
       return await this.driverRepository.findOne({ where: { id } });
     } catch (error) {
       this.logger.error(error.message);
-      throw new BadRequestException(error.message);
+      throw new HttpException(
+        error.message,
+        error.status || HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     }
   }
 
@@ -66,19 +77,22 @@ export class DriverService {
           relations: ['usageRecords'],
         });
         if (!request) {
-          throw new HttpException('No driver found', 404);
+          throw new NotFoundException('No driver found');
         }
       }
       const request = await this.driverRepository.find({
         relations: ['usageRecords'],
       });
       if (!request) {
-        throw new HttpException('No driver found', 404);
+        throw new NotFoundException('No driver found');
       }
       return request;
     } catch (error) {
       this.logger.error(error.message);
-      throw new BadRequestException(error.message);
+      throw new HttpException(
+        error.message,
+        error.status || HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     }
   }
 
@@ -86,12 +100,15 @@ export class DriverService {
     try {
       const request = await this.driverRepository.findOne({ where: { id } });
       if (!request) {
-        throw new HttpException('Driver not found', 404);
+        throw new NotFoundException('Driver not found');
       }
       return request;
     } catch (error) {
       this.logger.error(error.message);
-      throw new BadRequestException(error.message);
+      throw new HttpException(
+        error.message,
+        error.status || HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     }
   }
 }
