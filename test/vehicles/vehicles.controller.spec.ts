@@ -2,18 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { VehiclesController } from '../../src/modules/vehicles/vehicles.controller';
 import { VehiclesService } from '../../src/modules/vehicles/vehicles.service';
 import VehiclesRepository from '../../src/modules/vehicles/vehicles.repository';
-
-const mockedVehiclesService = {
-  createNewVehicle: jest.fn(),
-  updateVehicle: jest.fn(),
-  deleteVehicle: jest.fn(),
-  getVehicleById: jest.fn(),
-  getVehicles: jest.fn(),
-};
-
-const mockedVehiclesRepository = {
-  getVehiclesByFilters: jest.fn(),
-};
+import { mockedVehiclesRepository, mockedVehiclesService } from '../test-utils';
 
 describe('Vehicles Controller', () => {
   let controller: VehiclesController;

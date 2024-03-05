@@ -20,3 +20,21 @@ export const mockedVehicleAllocationService = {
   findOne: jest.fn(),
   save: jest.fn(),
 };
+
+export const mockedVehiclesService = {
+  createNewVehicle: jest.fn(),
+  updateVehicle: jest.fn(),
+  deleteVehicle: jest.fn(),
+  getVehicleById: jest.fn(),
+  getVehicles: jest.fn(),
+  find: jest.fn(),
+  save: jest.fn(),
+  update: jest.fn(),
+  findOne: jest.fn(),
+  softDelete: jest.fn(),
+};
+
+export const mockedVehiclesRepository = {
+  getVehiclesByFilters: jest.fn(),
+  findOne: jest.fn(),
+};
