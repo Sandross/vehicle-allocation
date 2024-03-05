@@ -1,3 +1,4 @@
+import { HttpException } from '@nestjs/common';
 import { DriverEntity } from 'src/modules/drivers/driver.entity';
 import { VehiclesAllocationEntity } from 'src/modules/vehicles-allocation/vehicle-allocation.entity';
 import { VehiclesEntity } from 'src/modules/vehicles/vehicle.entity';
@@ -11,7 +12,7 @@ async function checkVehicleExists(
     where: { id: vehicleId },
   });
   if (!vehicle) {
-    throw new Error('Vehicle not found');
+    throw new HttpException('Vehicle not found', 404);
   }
 }
 
@@ -21,7 +22,7 @@ async function checkDriverExists(
 ): Promise<void> {
   const driver = await driversRepository.findOne({ where: { id: driverId } });
   if (!driver) {
-    throw new Error('Driver not found');
+    throw new HttpException('Driver not found', 404);
   }
 }
 
@@ -35,7 +36,7 @@ async function checkIsVehicleAllocated(
     where: { id: vehicleId, endDate: null },
   });
   if (vehicle) {
-    throw new Error('Vehicle already allocated');
+    throw new HttpException('Vehicle already allocated', 400);
   }
 }
 
@@ -47,7 +48,7 @@ async function driverHasAlreadyActiveContract(
     where: { id: driverId, endDate: null },
   });
   if (driver) {
-    throw new Error('Driver already has an active contract');
+    throw new HttpException('Driver already has an active contract', 400);
   }
 }
 

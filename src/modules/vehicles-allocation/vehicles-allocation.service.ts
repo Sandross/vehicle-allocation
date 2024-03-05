@@ -1,5 +1,10 @@
 import { AllocateVehicleDto } from './dto/allocate-vehicle-dto';
-import { Injectable, Logger } from '@nestjs/common';
+import {
+  BadRequestException,
+  HttpException,
+  Injectable,
+  Logger,
+} from '@nestjs/common';
 import { VehiclesAllocationEntity } from 'src/modules/vehicles-allocation/vehicle-allocation.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -52,11 +57,16 @@ export class VehiclesAllocationService {
   }
   async getAllAllocatedVehicles(): Promise<VehiclesAllocationEntity[]> {
     try {
-      return this.vehiclesAllocationRepository.find({
+      const request = this.vehiclesAllocationRepository.find({
         relations: ['driver', 'vehicle'],
       });
+      if (!request) {
+        throw new HttpException('No vehicle allocation found', 404);
+      }
+      return request;
     } catch (error) {
       this.logger.error(error.message);
+      throw new BadRequestException(error.message);
     }
   }
   async finishVehiclesAllocateContract(
@@ -67,12 +77,13 @@ export class VehiclesAllocationService {
         { where: { id: contractId } },
       );
       if (!vehicleAllocation) {
-        throw new Error('Vehicle allocation contract not found');
+        throw new HttpException('Vehicle allocation contract not found', 404);
       }
       vehicleAllocation.endDate = new Date();
       return this.vehiclesAllocationRepository.save(vehicleAllocation);
     } catch (error) {
       this.logger.error(error.message);
+      throw new BadRequestException(error.message);
     }
   }
 }

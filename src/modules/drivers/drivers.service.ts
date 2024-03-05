@@ -1,4 +1,9 @@
-import { Injectable, Logger } from '@nestjs/common';
+import {
+  BadRequestException,
+  HttpException,
+  Injectable,
+  Logger,
+} from '@nestjs/common';
 import { DriverEntity } from './driver.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ILike, Repository } from 'typeorm';
@@ -21,57 +26,72 @@ export class DriverService {
       });
       if (driverAlreadyExists) {
         this.logger.error('Driver already exists');
-        return { error: 'Driver already exists' };
+        throw new HttpException('Driver already exists', 400);
       }
       return this.driverRepository.save(driver);
     } catch (error) {
       this.logger.error(error.message);
-      throw error;
+      throw new BadRequestException(error.message);
     }
   }
   async updateDriver(id: number, driver: CreateDriverDto): Promise<any> {
     try {
       const searchedDriver = this.driverRepository.findOne({ where: { id } });
-      if (!searchedDriver) throw new Error('Driver not found');
+      if (!searchedDriver) throw new HttpException('Driver not found', 404);
       await this.driverRepository.update(id, driver);
       return await this.driverRepository.findOne({ where: { id } });
     } catch (error) {
       this.logger.error(error.message);
+      throw new BadRequestException(error.message);
     }
   }
 
   async deleteDriver(id: number): Promise<any> {
     try {
       const searchedDriver = this.driverRepository.findOne({ where: { id } });
-      if (!searchedDriver) throw new Error('Driver not found');
+      if (!searchedDriver) throw new HttpException('Driver not found', 404);
       await this.driverRepository.softDelete(id);
       return await this.driverRepository.findOne({ where: { id } });
     } catch (error) {
       this.logger.error(error.message);
+      throw new BadRequestException(error.message);
     }
   }
 
   async findAllDrivers(name: string): Promise<DriverEntity[]> {
     try {
       if (name) {
-        return await this.driverRepository.find({
+        const request = await this.driverRepository.find({
           where: { name: ILike(`%${name.toLowerCase()}%`) },
           relations: ['usageRecords'],
         });
+        if (!request) {
+          throw new HttpException('No driver found', 404);
+        }
       }
-      return await this.driverRepository.find({
+      const request = await this.driverRepository.find({
         relations: ['usageRecords'],
       });
+      if (!request) {
+        throw new HttpException('No driver found', 404);
+      }
+      return request;
     } catch (error) {
       this.logger.error(error.message);
+      throw new BadRequestException(error.message);
     }
   }
 
   async findDriverById(id: number): Promise<DriverEntity> {
     try {
-      return await this.driverRepository.findOne({ where: { id } });
+      const request = await this.driverRepository.findOne({ where: { id } });
+      if (!request) {
+        throw new HttpException('Driver not found', 404);
+      }
+      return request;
     } catch (error) {
       this.logger.error(error.message);
+      throw new BadRequestException(error.message);
     }
   }
 }

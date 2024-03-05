@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { CreateNewVehicleDto } from './dto/create-new-vehicle-dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { VehiclesEntity } from 'src/modules/vehicles/vehicle.entity';
@@ -21,13 +21,15 @@ export class VehiclesService {
         where: { brand: vehicle.brand },
       });
       if (vehicleAlreadyExists) {
-        this.logger.error('Vehicle already exists');
-        throw new Error('Vehicle already exists');
+        throw new HttpException('Vehicle already exists', 400);
       }
       return this.vehiclesRepository.save(vehicle);
     } catch (error) {
       this.logger.error(error.message);
-      throw error;
+      throw new HttpException(
+        error.message,
+        error.status || HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     }
   }
 
@@ -39,11 +41,15 @@ export class VehiclesService {
       const vehicleToUpdate = await this.vehiclesRepository.findOne({
         where: { id },
       });
-      if (!vehicleToUpdate) throw new Error('Vehicle not found');
+      if (!vehicleToUpdate) throw new HttpException('Vehicle not found', 404);
       await this.vehiclesRepository.update(id, vehicle);
       return await this.vehiclesRepository.findOne({ where: { id } });
     } catch (error) {
       this.logger.error(error.message);
+      throw new HttpException(
+        error.message,
+        error.status || HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     }
   }
 
@@ -52,11 +58,15 @@ export class VehiclesService {
       const vehicleToDelete = await this.vehiclesRepository.findOne({
         where: { id },
       });
-      if (!vehicleToDelete) throw new Error('Vehicle not found');
+      if (!vehicleToDelete) throw new HttpException('Vehicle not found', 404);
       await this.vehiclesRepository.delete(id);
       return `Vehicle with id ${id} deleted successfully`;
     } catch (error) {
       this.logger.error(error.message);
+      throw new HttpException(
+        error.message,
+        error.status || HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     }
   }
 
@@ -65,10 +75,14 @@ export class VehiclesService {
       const vehicle = await this.vehiclesRepository.findOne({
         where: { id },
       });
-      if (!vehicle) throw new Error('Vehicle not found');
+      if (!vehicle) throw new HttpException('Vehicle not found', 404);
       return vehicle;
     } catch (error) {
       this.logger.error(error.message);
+      throw new HttpException(
+        error.message,
+        error.status || HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     }
   }
 }
