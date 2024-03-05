@@ -82,10 +82,12 @@ export class VehiclesAllocationService {
   ): Promise<VehiclesAllocationEntity> {
     try {
       const vehicleAllocation = await this.vehiclesAllocationRepository.findOne(
-        { where: { id: contractId } },
+        { where: { id: contractId, endDate: null } },
       );
       if (!vehicleAllocation) {
-        throw new BadRequestException('Vehicle allocation contract not found');
+        throw new BadRequestException(
+          'Vehicle allocation contract not found or its already done',
+        );
       }
       vehicleAllocation.endDate = new Date();
       return this.vehiclesAllocationRepository.save(vehicleAllocation);
