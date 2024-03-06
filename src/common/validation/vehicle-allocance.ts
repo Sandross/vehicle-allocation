@@ -5,7 +5,7 @@ import { VehiclesEntity } from 'src/modules/vehicles/vehicle.entity';
 import { Repository } from 'typeorm';
 
 class EntityChecker {
-  private static async checkEntityExists<T>(
+  static async checkEntityExists<T>(
     entityId: number,
     repository: Repository<T> | any,
     errorMessage: string,

@@ -11,7 +11,7 @@ import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { VehiclesEntity } from '../../modules/vehicles/vehicle.entity';
 import { DriverEntity } from '../../modules/drivers/driver.entity';
-import EntityChecker from '../../../src/common/validation/vehicle-allocance.validator';
+import EntityChecker from '../../common/validation/vehicle-allocance';
 
 @Injectable()
 export class VehiclesAllocationService {
