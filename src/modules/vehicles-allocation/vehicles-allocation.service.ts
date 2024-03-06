@@ -11,12 +11,7 @@ import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { VehiclesEntity } from '../../modules/vehicles/vehicle.entity';
 import { DriverEntity } from '../../modules/drivers/driver.entity';
-import {
-  checkDriverExists,
-  checkIsVehicleAllocated,
-  checkVehicleExists,
-  driverHasAlreadyActiveContract,
-} from './utils';
+import EntityChecker from '../../../src/common/validation/vehicle-allocance.validator';
 
 @Injectable()
 export class VehiclesAllocationService {
@@ -36,16 +31,21 @@ export class VehiclesAllocationService {
   ): Promise<VehiclesAllocationEntity> {
     try {
       const { vehicleId, driverId, reason } = pendingAlocateVehicleValues;
-      await checkVehicleExists(+vehicleId, this.vehiclesRepository);
-      await checkDriverExists(+driverId, this.driversRepository);
-      await checkIsVehicleAllocated(
+      await EntityChecker.checkVehicleExists(
+        +vehicleId,
+        this.vehiclesRepository,
+      );
+      await EntityChecker.checkDriverExists(+driverId, this.driversRepository);
+      await EntityChecker.checkIsVehicleAllocated(
         +vehicleId,
         this.vehiclesAllocationRepository,
       );
-      await driverHasAlreadyActiveContract(
+
+      await EntityChecker.driverHasAlreadyActiveContract(
         +driverId,
         this.vehiclesAllocationRepository,
       );
+
       const vehicleAllocation = this.vehiclesAllocationRepository.create({
         vehicle: { id: +vehicleId },
         driver: { id: +driverId },
